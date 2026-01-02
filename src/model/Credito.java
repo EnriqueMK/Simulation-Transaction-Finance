@@ -3,6 +3,8 @@ package model;
 import java.time.YearMonth;
 import java.util.concurrent.ThreadLocalRandom;
 
+import validation.Credito.LimiteCreditoValidar;
+
 public class Credito implements Cartao {
 
     private Cliente cliente;
@@ -24,9 +26,7 @@ public class Credito implements Cartao {
 
         this.vencimento = venc;
         this.cvv = ThreadLocalRandom.current().nextInt(100, 1000);
-
-        // Necessário script para validar limite
-        this.limite = limite;
+        this.limite = LimiteCreditoValidar.validar(limite);
         this.limiteDisponivel = limite;
     }
 
@@ -73,6 +73,7 @@ public class Credito implements Cartao {
         System.out.println();
     }
 
+    // Necessário criar validador de transação
     @Override
     public boolean autorizarPagamento(double valor) {
         return true;
